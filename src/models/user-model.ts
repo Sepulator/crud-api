@@ -7,9 +7,7 @@ export interface UserRecord {
   hobbies: string[];
 }
 
-let db: UserRecord[] = [
-  { id: uuidv4(), username: 'Maximus', age: 20, hobbies: ['playing pianno'] },
-];
+let db: UserRecord[] = [];
 
 export const findAll = (): Promise<UserRecord[]> => {
   return new Promise((resolve) => {

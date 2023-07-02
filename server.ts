@@ -27,6 +27,9 @@ const server = http.createServer((req, res) => {
       updateUser(req, res, id);
     } else if (usersUrl && req.method === 'DELETE') {
       removeUser(req, res, id);
+    } else {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Invalid Route' }));
     }
   } catch (error) {
     res.writeHead(500, { 'Content-Type': 'application/json' });

@@ -24,10 +24,21 @@ export const findById = (id: string): Promise<UserRecord | null> => {
   });
 };
 
-export const create = (user: Omit<UserRecord, 'id'>): Promise<UserRecord> => {
+export const create = (
+  user: Omit<UserRecord, 'id'>,
+  id?: string,
+): Promise<UserRecord> => {
   return new Promise((resolve) => {
-    const newUser = { id: uuidv4(), ...user };
+    const newUser = { id: id || uuidv4(), ...user };
     db.push(newUser);
     resolve(newUser);
+  });
+};
+
+export const update = (user: UserRecord): Promise<UserRecord> => {
+  return new Promise((resolve) => {
+    const index = db.findIndex((u) => u.id === user.id);
+    db[index] = user;
+    resolve(user);
   });
 };

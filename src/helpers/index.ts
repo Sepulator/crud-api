@@ -1,4 +1,7 @@
-import { validateUserRecord } from './validateUserRecord';
+import {
+  validateUserRecord,
+  validateUpdateUserRecord,
+} from './validateUserRecord';
 import { getUserData } from './getUserData';
 
-export { validateUserRecord, getUserData };
+export { validateUserRecord, getUserData, validateUpdateUserRecord };

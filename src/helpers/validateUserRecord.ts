@@ -37,7 +37,9 @@ export function validateUpdateUserRecord(
       (parsedData.username === undefined ||
         typeof parsedData.username === 'string') &&
       (parsedData.age === undefined || typeof parsedData.age === 'number') &&
-      (parsedData.hobbies === undefined || Array.isArray(parsedData.hobbies))
+      (parsedData.hobbies === undefined ||
+        (Array.isArray(parsedData.hobbies) &&
+          parsedData.hobbies.every((hobby) => typeof hobby === 'string')))
     ) {
       return parsedData;
     } else {

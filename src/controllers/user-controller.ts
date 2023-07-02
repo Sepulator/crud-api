@@ -106,3 +106,26 @@ export const updateUser = async (
     console.log(error);
   }
 };
+
+export const removeUser = async (
+  _req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  id: string | null,
+) => {
+  try {
+    const user = id ? await User.findById(id) : null;
+    if (id && validate(id) && !user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found.' }));
+    } else if (!user) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User ID not valid.' }));
+    } else {
+      const removedID = await User.removeById(user.id);
+      res.writeHead(204, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: `User ${removedID} removed.` }));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

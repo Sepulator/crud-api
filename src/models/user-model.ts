@@ -7,7 +7,7 @@ export interface UserRecord {
   hobbies: string[];
 }
 
-const db: UserRecord[] = [
+let db: UserRecord[] = [
   { id: uuidv4(), username: 'Maximus', age: 20, hobbies: ['playing pianno'] },
 ];
 
@@ -40,5 +40,12 @@ export const update = (user: UserRecord): Promise<UserRecord> => {
     const index = db.findIndex((u) => u.id === user.id);
     db[index] = user;
     resolve(user);
+  });
+};
+
+export const removeById = (id: string): Promise<string> => {
+  return new Promise((resolve) => {
+    db = db.filter((u) => u.id !== id);
+    resolve(id);
   });
 };

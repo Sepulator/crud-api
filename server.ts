@@ -1,4 +1,5 @@
 import http from 'http';
+import { config as dotenvConfig } from 'dotenv';
 
 import {
   getUsers,
@@ -8,25 +9,28 @@ import {
   removeUser,
 } from './src/controllers';
 
+dotenvConfig();
 const PORT = process.env.PORT || 5000;
 
 const server = http.createServer((req, res) => {
-  if (req.url === '/api/users' && req.method === 'GET') {
-    getUsers(req, res);
-  } else if (req.url?.startsWith('/api/users/') && req.method === 'GET') {
+  try {
     const id = req.url?.split('/')[3] || null;
-    getUser(req, res, id);
-  } else if (req.url === '/api/users' && req.method === 'POST') {
-    createUser(req, res);
-  } else if (req.url?.startsWith('/api/users/') && req.method === 'PUT') {
-    const id = req.url?.split('/')[3] || null;
-    updateUser(req, res, id);
-  } else if (req.url?.startsWith('/api/users/') && req.method === 'DELETE') {
-    const id = req.url?.split('/')[3] || null;
-    removeUser(req, res, id);
-  } else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Route Not Found' }));
+    const usersUrl = req.url?.startsWith('/api/users/');
+
+    if (req.url === '/api/users' && req.method === 'GET') {
+      getUsers(req, res);
+    } else if (usersUrl && req.method === 'GET') {
+      getUser(req, res, id);
+    } else if (req.url === '/api/users' && req.method === 'POST') {
+      createUser(req, res);
+    } else if (usersUrl && req.method === 'PUT') {
+      updateUser(req, res, id);
+    } else if (usersUrl && req.method === 'DELETE') {
+      removeUser(req, res, id);
+    }
+  } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Internal Server Error' }));
   }
 });
 

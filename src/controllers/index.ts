@@ -1,2 +1,2 @@
-import { getUsers, getUser } from './user-controller';
-export { getUsers, getUser };
+import { getUsers, getUser, createUser } from './user-controller';
+export { getUsers, getUser, createUser };

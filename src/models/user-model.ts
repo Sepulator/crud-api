@@ -12,7 +12,14 @@ const db: UserRecord[] = [
 ];
 
 export const findAll = (): Promise<UserRecord[]> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(db);
+  });
+};
+
+export const findById = (id: string): Promise<UserRecord | null> => {
+  return new Promise((resolve) => {
+    const user = db.find((u) => u.id === id) || null;
+    resolve(user);
   });
 };

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "ts-node-esm server.ts",
-    "dev": "nodemon --watch '*.ts' --exec ts-node-esm server.ts",
+    "dev": "nodemon server.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "test": "jest --silent",

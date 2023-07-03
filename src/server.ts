@@ -6,6 +6,7 @@ import {
   updateUser,
   removeUser,
 } from './controllers';
+import { ErrorMessage } from './error-messages';
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   try {
@@ -23,12 +24,10 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     } else if (usersUrl && req.method === 'DELETE') {
       removeUser(res, id);
     } else {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'Invalid Route' }));
+      ErrorMessage.InvalidRoute(res);
     }
   } catch (error) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Internal Server Error' }));
+    ErrorMessage.ServerError(res);
   }
 });
 

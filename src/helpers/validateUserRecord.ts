@@ -11,12 +11,12 @@ export function validateUserRecord(
 ): Omit<UserRecord, 'id'> | null {
   try {
     const parsedData = JSON.parse(body) as Omit<UserRecord, 'id'>;
-    if (
-      typeof parsedData.username === 'string' &&
-      typeof parsedData.age === 'number' &&
+    const isValidUserName = typeof parsedData.username === 'string';
+    const isValidAge = typeof parsedData.age === 'number';
+    const isValidHobbies =
       Array.isArray(parsedData.hobbies) &&
-      parsedData.hobbies.every((hobby) => typeof hobby === 'string')
-    ) {
+      parsedData.hobbies.every((hobby) => typeof hobby === 'string');
+    if (isValidAge && isValidHobbies && isValidUserName) {
       return {
         username: parsedData.username,
         age: parsedData.age,
@@ -34,20 +34,21 @@ export function validateUpdateUserRecord(
   body: string,
 ): UserRecordUpdate | null {
   try {
-    const parsedData = JSON.parse(body) as UserRecordUpdate;
+    const parsed = JSON.parse(body) as UserRecordUpdate;
+    const isValidUserName =
+      parsed.username === undefined || typeof parsed.username === 'string';
+    const isValidAge =
+      parsed.age === undefined || typeof parsed.age === 'number';
+    const isValidHobbies =
+      parsed.hobbies === undefined ||
+      (Array.isArray(parsed.hobbies) &&
+        parsed.hobbies.every((hobby) => typeof hobby === 'string'));
 
-    if (
-      (parsedData.username === undefined ||
-        typeof parsedData.username === 'string') &&
-      (parsedData.age === undefined || typeof parsedData.age === 'number') &&
-      (parsedData.hobbies === undefined ||
-        (Array.isArray(parsedData.hobbies) &&
-          parsedData.hobbies.every((hobby) => typeof hobby === 'string')))
-    ) {
+    if (isValidAge && isValidHobbies && isValidUserName) {
       return {
-        username: parsedData.username,
-        age: parsedData.age,
-        hobbies: parsedData.hobbies,
+        username: parsed.username,
+        age: parsed.age,
+        hobbies: parsed.hobbies,
       };
     } else {
       return null;

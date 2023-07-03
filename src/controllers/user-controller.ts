@@ -8,6 +8,8 @@ import {
   validateUpdateUserRecord,
 } from '../helpers';
 
+import { ErrorMessage } from '../error-messages';
+
 export const getUsers = async (res: ServerResponse) => {
   try {
     const users = await User.findAll();
@@ -22,11 +24,9 @@ export const getUser = async (res: ServerResponse, id: string | null) => {
   try {
     const user = id ? await User.findById(id) : null;
     if (id && validate(id) && !user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found.' }));
+      ErrorMessage.UserNotFound(res);
     } else if (!user) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User ID not valid.' }));
+      ErrorMessage.UserIdNotValid(res);
     } else {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(user));
@@ -45,12 +45,7 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
       res.writeHead(201, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(newUser));
     } else {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          message: 'Error parsing body or does not contain required fields.',
-        }),
-      );
+      ErrorMessage.ParsingBody(res);
     }
   } catch (error) {
     console.log(error);
@@ -65,11 +60,9 @@ export const updateUser = async (
   try {
     const user = id ? await User.findById(id) : null;
     if (id && validate(id) && !user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found.' }));
+      ErrorMessage.UserNotFound(res);
     } else if (!user) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User ID not valid.' }));
+      ErrorMessage.UserIdNotValid(res);
     } else {
       const body = await getUserData(req);
       const userData = validateUpdateUserRecord(body);
@@ -84,12 +77,7 @@ export const updateUser = async (
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(newUser));
       } else {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify({
-            message: 'Error parsing body or does not contain required fields.',
-          }),
-        );
+        ErrorMessage.ParsingBody(res);
       }
     }
   } catch (error) {
@@ -101,11 +89,9 @@ export const removeUser = async (res: ServerResponse, id: string | null) => {
   try {
     const user = id ? await User.findById(id) : null;
     if (id && validate(id) && !user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found.' }));
+      ErrorMessage.UserNotFound(res);
     } else if (!user) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User ID not valid.' }));
+      ErrorMessage.UserIdNotValid(res);
     } else {
       const removedID = await User.removeById(user.id);
       res.writeHead(204, { 'Content-Type': 'application/json' });

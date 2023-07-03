@@ -8,13 +8,12 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "ts-node-esm src/index.ts",
-    "build": "webpack",
     "start:dev": "nodemon src/index.ts",
-    "start:prod": "npm run build && node dist/bundle.js",
+    "start:prod": "webpack && node dist/bundle.js",
+    "start:multi": "nodemon src/load-balancer.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --silent",
     "test:verbose": "jest"
   },
   "devDependencies": {

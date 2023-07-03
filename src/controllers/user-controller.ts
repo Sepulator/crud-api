@@ -8,10 +8,7 @@ import {
   validateUpdateUserRecord,
 } from '../helpers';
 
-export const getUsers = async (
-  _req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-) => {
+export const getUsers = async (res: ServerResponse) => {
   try {
     const users = await User.findAll();
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -21,11 +18,7 @@ export const getUsers = async (
   }
 };
 
-export const getUser = async (
-  _req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-  id: string | null,
-) => {
+export const getUser = async (res: ServerResponse, id: string | null) => {
   try {
     const user = id ? await User.findById(id) : null;
     if (id && validate(id) && !user) {
@@ -43,10 +36,7 @@ export const getUser = async (
   }
 };
 
-export const createUser = async (
-  req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-) => {
+export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const body = await getUserData(req);
     const userData = validateUserRecord(body);
@@ -69,7 +59,7 @@ export const createUser = async (
 
 export const updateUser = async (
   req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
+  res: ServerResponse,
   id: string | null,
 ) => {
   try {
@@ -107,11 +97,7 @@ export const updateUser = async (
   }
 };
 
-export const removeUser = async (
-  _req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-  id: string | null,
-) => {
+export const removeUser = async (res: ServerResponse, id: string | null) => {
   try {
     const user = id ? await User.findById(id) : null;
     if (id && validate(id) && !user) {

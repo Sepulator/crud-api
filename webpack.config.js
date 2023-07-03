@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   target: 'node',
   mode: 'production',
-  entry: './server.ts',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js', // <--- Will be compiled to this single file

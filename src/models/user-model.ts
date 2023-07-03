@@ -7,7 +7,7 @@ export interface UserRecord {
   hobbies: string[];
 }
 
-let db: UserRecord[] = [];
+export let db: UserRecord[] = [];
 
 export const findAll = (): Promise<UserRecord[]> => {
   return new Promise((resolve) => {

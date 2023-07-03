@@ -17,7 +17,11 @@ export function validateUserRecord(
       Array.isArray(parsedData.hobbies) &&
       parsedData.hobbies.every((hobby) => typeof hobby === 'string')
     ) {
-      return parsedData;
+      return {
+        username: parsedData.username,
+        age: parsedData.age,
+        hobbies: parsedData.hobbies,
+      };
     } else {
       return null;
     }
@@ -33,7 +37,6 @@ export function validateUpdateUserRecord(
     const parsedData = JSON.parse(body) as UserRecordUpdate;
 
     if (
-      typeof parsedData === 'object' &&
       (parsedData.username === undefined ||
         typeof parsedData.username === 'string') &&
       (parsedData.age === undefined || typeof parsedData.age === 'number') &&
@@ -41,7 +44,11 @@ export function validateUpdateUserRecord(
         (Array.isArray(parsedData.hobbies) &&
           parsedData.hobbies.every((hobby) => typeof hobby === 'string')))
     ) {
-      return parsedData;
+      return {
+        username: parsedData.username,
+        age: parsedData.age,
+        hobbies: parsedData.hobbies,
+      };
     } else {
       return null;
     }

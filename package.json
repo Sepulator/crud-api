@@ -14,7 +14,7 @@
     "start:prod": "npm run build && node dist/bundle.js",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "test": "jest --silent",
+    "test": "jest",
     "test:verbose": "jest"
   },
   "devDependencies": {

@@ -1,5 +1,7 @@
 import { userService } from '@/services';
-import type { ServerResponse } from 'http';
+import { UserPayload } from '@/types/user';
+import { getRequestBody } from '@/utils/parse';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 export function sendResponse(response: ServerResponse, statusCode: number, data: unknown) {
   response.writeHead(statusCode, { 'Content-Type': 'application/json' });
@@ -11,4 +13,16 @@ export async function getAllUsers(response: ServerResponse) {
   const statusCode = result.success ? 200 : 500;
   const data = result.success ? result.data : result.error;
   sendResponse(response, statusCode, data);
+}
+
+export async function createUser(request: IncomingMessage, response: ServerResponse) {
+  try {
+    const body = (await getRequestBody(request)) as Partial<UserPayload>;
+    const result = await userService.createUser(body);
+    const statusCode = result.success ? 201 : 400;
+    const data = result.success ? result.data : result.error;
+    sendResponse(response, statusCode, data);
+  } catch (error) {
+    sendResponse(response, 400, error instanceof Error ? error.message : 'Invalid request body');
+  }
 }

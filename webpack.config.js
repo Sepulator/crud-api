@@ -9,7 +9,7 @@ export const externals = [nodeExternals()];
 export const module = {
   rules: [
     {
-      test: /\.ts$/,
+      test: /\.tsx?$/,
       use: 'ts-loader',
       exclude: /node_modules/,
     },
@@ -18,6 +18,13 @@ export const module = {
 
 export const resolve = {
   extensions: ['.ts', '.js'],
+  alias: {
+    '@': _resolve(__dirname, 'src'),
+    '@controller': _resolve(__dirname, 'src/controller'),
+    '@db': _resolve(__dirname, 'src/db'),
+    '@services': _resolve(__dirname, 'src/services'),
+    '@types': _resolve(__dirname, 'src/types'),
+  },
 };
 
 export const output = {

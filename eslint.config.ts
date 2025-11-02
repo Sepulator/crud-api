@@ -9,7 +9,14 @@ export default defineConfig([
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     plugins: { js },
     extends: ['js/recommended'],
-    languageOptions: { globals: globals.node },
+    languageOptions: {
+      globals: globals.node,
+
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+    },
   },
   tseslint.configs.recommended,
   eslintConfigPrettier,

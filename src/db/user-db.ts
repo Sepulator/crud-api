@@ -20,6 +20,18 @@ const getUser = async (id: string) => {
   return user;
 };
 
+const deleteUser = async (id: string) => {
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index === -1) {
+    return null;
+  }
+
+  const deletedUser = users.splice(index, 1)[0];
+
+  return deletedUser ?? null;
+};
+
 const updateUser = async (id: string, payload: OptionalUser): Promise<User | null> => {
   const index = users.findIndex((user) => user.id === id);
 
@@ -42,4 +54,5 @@ export const db = {
   createUser,
   getUser,
   updateUser,
+  deleteUser,
 };

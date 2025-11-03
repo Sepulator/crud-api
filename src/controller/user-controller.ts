@@ -45,3 +45,10 @@ export async function updateUser(request: IncomingMessage, response: ServerRespo
     sendResponse(response, 400, error instanceof Error ? error.message : 'Invalid request body');
   }
 }
+
+export async function deleteUser(url: string, response: ServerResponse) {
+  const result = await userService.deleteUser(url);
+  const statusCode = result.success ? (result.data ? 204 : 404) : 400;
+  const data = result.success && result.data ? result.data : result.error;
+  sendResponse(response, statusCode, data);
+}

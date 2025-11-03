@@ -67,6 +67,10 @@ export const getUser = (url: string) => {
   return getUserById(url, db.getUser);
 };
 
+export const deleteUser = (url: string) => {
+  return getUserById(url, db.deleteUser);
+};
+
 export const updatedUser = async (url: string, data: Partial<UserPayload>): Promise<ApiResponse<User>> => {
   const result = await getUser(url);
 

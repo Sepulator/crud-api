@@ -1,6 +1,6 @@
 import { db } from '@/db/user-db';
 import { ApiResponse, User, UserPayload } from '@/types/user';
-import { parseId, validateUserPayload } from '@/utils/parse';
+import { parseId, validateUserPayload, validateUserUpdatePayload } from '@/utils/parse';
 
 export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
   try {
@@ -35,7 +35,10 @@ export const createUser = async (data: Partial<UserPayload>): Promise<ApiRespons
   };
 };
 
-export const getUserById = async (url: string): Promise<ApiResponse<User>> => {
+export const getUserById = async (
+  url: string,
+  callback: (id: string) => Promise<User | null>
+): Promise<ApiResponse<User>> => {
   const id = parseId(url);
 
   if (id === null) {
@@ -45,12 +48,47 @@ export const getUserById = async (url: string): Promise<ApiResponse<User>> => {
     };
   }
 
-  const user = await db.getUserById(id);
+  const user = await callback(id);
 
   if (!user) {
     return {
       success: true,
       error: ['User not found.'],
+    };
+  }
+
+  return {
+    success: true,
+    data: user,
+  };
+};
+
+export const getUser = (url: string) => {
+  return getUserById(url, db.getUser);
+};
+
+export const updatedUser = async (url: string, data: Partial<UserPayload>): Promise<ApiResponse<User>> => {
+  const result = await getUser(url);
+
+  if (!result.success || (Array.isArray(result.error) && result.error.length > 0)) {
+    return result;
+  }
+
+  const { payload, errors } = validateUserUpdatePayload(data);
+
+  if (payload === null) {
+    return Promise.resolve({
+      success: false,
+      error: errors,
+    });
+  }
+
+  const user = await db.updateUser(result.data!.id, payload);
+
+  if (!user) {
+    return {
+      success: false,
+      error: ['User update failed.'],
     };
   }
 

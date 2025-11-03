@@ -10,6 +10,8 @@ export const router = async (request: IncomingMessage, response: ServerResponse)
   } else if (url === '/api/users' && method === 'POST') {
     await userController.createUser(request, response);
   } else if (url?.startsWith('/api/users/') && method === 'GET') {
-    await userController.getUserByID(url, response);
+    await userController.getUser(url, response);
+  } else if (url?.startsWith('/api/users/') && method === 'PUT') {
+    await userController.updateUser(request, response, url);
   }
 };

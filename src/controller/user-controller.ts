@@ -27,9 +27,21 @@ export async function createUser(request: IncomingMessage, response: ServerRespo
   }
 }
 
-export async function getUserByID(url: string, response: ServerResponse) {
-  const result = await userService.getUserById(url);
+export async function getUser(url: string, response: ServerResponse) {
+  const result = await userService.getUser(url);
   const statusCode = result.success ? (result.data ? 200 : 404) : 400;
   const data = result.success && result.data ? result.data : result.error;
   sendResponse(response, statusCode, data);
+}
+
+export async function updateUser(request: IncomingMessage, response: ServerResponse, url: string) {
+  try {
+    const body = (await getRequestBody(request)) as Partial<UserPayload>;
+    const result = await userService.updatedUser(url, body);
+    const statusCode = result.success ? (result.data ? 200 : 404) : 400;
+    const data = result.success && result.data ? result.data : result.error;
+    sendResponse(response, statusCode, data);
+  } catch (error) {
+    sendResponse(response, 400, error instanceof Error ? error.message : 'Invalid request body');
+  }
 }

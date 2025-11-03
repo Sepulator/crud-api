@@ -18,7 +18,7 @@
   "license": "ISC",
   "author": "Yuri Skrypal",
   "scripts": {
-    "start:dev": "nodemon --exec \"node -r ts-node/register -r tsconfig-paths/register src/index.ts\"",
+    "start:dev": "nodemon --exec \"node -r ts-node/register -r tsconfig-paths/register src/server.ts\"",
     "start:prod": "webpack && node dist/bundle.js",
     "lint": "eslint src --ext .ts --max-warnings=0",
     "format": "prettier . --write"

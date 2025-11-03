@@ -2,7 +2,7 @@ import { resolve as _resolve } from 'path';
 import nodeExternals from 'webpack-node-externals';
 
 export const mode = 'production';
-export const entry = './src/index.ts';
+export const entry = './src/server.ts';
 export const target = 'node';
 export const externals = [nodeExternals()];
 

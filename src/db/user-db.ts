@@ -1,4 +1,4 @@
-import { User, UserPayload } from '@/types/user';
+import { OptionalUser, User, UserPayload } from '@/types/user';
 import { v4 as uuidV4 } from 'uuid';
 
 const users: User[] = [
@@ -15,13 +15,31 @@ const createUser = async (user: UserPayload) => {
   return newUser;
 };
 
-const getUserById = async (id: string) => {
+const getUser = async (id: string) => {
   const user = users.find((user) => user.id === id) ?? null;
   return user;
+};
+
+const updateUser = async (id: string, payload: OptionalUser): Promise<User | null> => {
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index === -1) {
+    return null;
+  }
+
+  const updatedUser: User = {
+    ...(users[index] as User),
+    ...payload,
+  };
+
+  users[index] = updatedUser;
+
+  return updatedUser;
 };
 
 export const db = {
   findAll: async () => users,
   createUser,
-  getUserById,
+  getUser,
+  updateUser,
 };

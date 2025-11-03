@@ -1,7 +1,10 @@
 import { router } from '@/router';
 import { createServer } from 'node:http';
+import { loadEnvFile, env } from 'node:process';
 
-const PORT = 4000;
+loadEnvFile('.env');
+
+const PORT = env['PORT'] ?? 4000;
 
 const server = createServer((request, response) => {
   router(request, response);

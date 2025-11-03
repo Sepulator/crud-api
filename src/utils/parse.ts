@@ -1,5 +1,6 @@
 import { IncomingMessage } from 'node:http';
 
+import { UserPayload } from '@/types/user';
 import { validate } from 'uuid';
 
 export const parseId = (url: string): string | null => {
@@ -27,8 +28,6 @@ export const getRequestBody = (request: IncomingMessage) => {
     request.on('error', reject);
   });
 };
-
-import { UserPayload } from '@/types/user';
 
 export const validateUserPayload = (data: unknown): { payload: UserPayload | null; errors: string[] } => {
   const errors: string[] = [];

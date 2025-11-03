@@ -1,6 +1,6 @@
 import { db } from '@/db/user-db';
 import { ApiResponse, User, UserPayload } from '@/types/user';
-import { validateUserPayload } from '@/utils/parse';
+import { parseId, validateUserPayload } from '@/utils/parse';
 
 export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
   try {
@@ -32,5 +32,30 @@ export const createUser = async (data: Partial<UserPayload>): Promise<ApiRespons
     success: true,
     data: user,
     message: 'User created successfully',
+  };
+};
+
+export const getUserById = async (url: string): Promise<ApiResponse<User>> => {
+  const id = parseId(url);
+
+  if (id === null) {
+    return {
+      success: false,
+      error: ['Invalid ID. Provide correct uuid'],
+    };
+  }
+
+  const user = await db.getUserById(id);
+
+  if (!user) {
+    return {
+      success: true,
+      error: ['User not found.'],
+    };
+  }
+
+  return {
+    success: true,
+    data: user,
   };
 };

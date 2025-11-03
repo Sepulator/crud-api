@@ -26,3 +26,10 @@ export async function createUser(request: IncomingMessage, response: ServerRespo
     sendResponse(response, 400, error instanceof Error ? error.message : 'Invalid request body');
   }
 }
+
+export async function getUserByID(url: string, response: ServerResponse) {
+  const result = await userService.getUserById(url);
+  const statusCode = result.success ? (result.data ? 200 : 404) : 400;
+  const data = result.success && result.data ? result.data : result.error;
+  sendResponse(response, statusCode, data);
+}

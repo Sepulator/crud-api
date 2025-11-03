@@ -9,5 +9,7 @@ export const router = async (request: IncomingMessage, response: ServerResponse)
     await userController.getAllUsers(response);
   } else if (url === '/api/users' && method === 'POST') {
     await userController.createUser(request, response);
+  } else if (url?.startsWith('/api/users/') && method === 'GET') {
+    await userController.getUserByID(url, response);
   }
 };

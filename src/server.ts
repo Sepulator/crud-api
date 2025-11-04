@@ -6,7 +6,7 @@ loadEnvFile('.env');
 
 const PORT = env['PORT'] ?? 4000;
 
-const server = createServer((request, response) => {
+export const server = createServer((request, response) => {
   router(request, response);
 });
 

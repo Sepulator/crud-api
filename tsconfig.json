@@ -36,6 +36,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "src/router.ts", "src/server.ts"],
+  "include": ["src/**/*", "src/router.ts", "src/server.ts", "src/index.ts"],
   "exclude": ["node_modules"]
 }

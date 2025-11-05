@@ -1,11 +1,8 @@
 import { server } from '@/server';
-import { loadEnvFile, env } from 'node:process';
+import { env } from 'node:process';
+import dotenv from 'dotenv';
 
-try {
-  loadEnvFile();
-} catch {
-  console.error('.env file not found');
-}
+dotenv.config();
 
 const PORT = env['PORT'] ?? 4000;
 

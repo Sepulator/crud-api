@@ -16,4 +16,7 @@ module.exports = {
     '^@controllers/(.*)$': '<rootDir>/src/controllers/$1',
     '^@types/(.*)$': '<rootDir>/src/types/$1',
   },
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/index.ts'],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text'],
 };

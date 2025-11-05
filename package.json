@@ -7,6 +7,9 @@
     "api",
     "nodejs"
   ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "homepage": "https://github.com/Sepulator/crud-api#readme",
   "bugs": {
     "url": "https://github.com/Sepulator/crud-api/issues"
@@ -22,7 +25,8 @@
     "start:prod": "webpack && node dist/bundle.js",
     "lint": "eslint src --ext .ts --max-warnings=0",
     "format": "prettier . --write",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
@@ -48,6 +52,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "uuid": "^13.0.0"
   }
 }

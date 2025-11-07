@@ -1,9 +1,9 @@
 import cluster from 'node:cluster';
 import { createServer, IncomingMessage, request } from 'node:http';
 import { availableParallelism } from 'node:os';
-import dotenv from 'dotenv';
 import { createAndStartServer } from './server';
 import { createUser, deleteUser, findAll, getUser, updateUser, users } from './db/user-db';
+import dotenv from 'dotenv';
 
 dotenv.config();
 

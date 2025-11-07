@@ -1,11 +1,14 @@
 import cluster from 'node:cluster';
-import { createServer, request } from 'node:http';
-import os from 'node:os';
+import { createServer, IncomingMessage, request } from 'node:http';
+import { availableParallelism } from 'node:os';
+import dotenv from 'dotenv';
 import { createAndStartServer } from './server';
 import { createUser, deleteUser, findAll, getUser, updateUser, users } from './db/user-db';
 
-const PORT = process.env['PORT'] ? Number(process.env['PORT']) : 4000;
-const numCPUs = os.cpus().length;
+dotenv.config();
+
+const PORT = Number(process.env['PORT']) || 4000;
+const numCPUs = availableParallelism();
 
 if (cluster.isPrimary) {
   console.log(`Master process ${process.pid} is running`);
@@ -50,14 +53,14 @@ if (cluster.isPrimary) {
         headers: req.headers,
       };
 
-      const proxyReq = request(options, (proxyRes: any) => {
-        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      const proxyReq = request(options, (proxyRes: IncomingMessage) => {
+        res.writeHead(proxyRes.statusCode ?? 503, proxyRes.headers);
         proxyRes.pipe(res, { end: true });
       });
 
       req.pipe(proxyReq, { end: true });
 
-      proxyReq.on('error', (err: any) => {
+      proxyReq.on('error', (err: Error) => {
         console.error(`Proxy request error: ${err}`);
         res.writeHead(500);
         res.end('Load balancer error');

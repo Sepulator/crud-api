@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@controller/*": ["src/controller/*"],
+      "@db/*": ["src/db/*"],
+      "@services/*": ["src/services/*"],
+      "@types/*": ["src/types/*"]
+    },
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "esnext",
+
+    "lib": ["esnext"],
+    "types": ["node", "jest"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+
+    "strict": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "src/router.ts", "src/server.ts", "src/index.ts"],
+  "exclude": ["node_modules"]
+}

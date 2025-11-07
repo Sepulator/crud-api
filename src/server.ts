@@ -1,8 +1,14 @@
 import { router } from '@/router';
 import { createServer } from 'node:http';
 
-const server = createServer((request, response) => {
-  router(request, response);
-});
+export const createAndStartServer = (port: number) => {
+  const server = createServer((request, response) => {
+    router(request, response);
+  });
 
-export { server };
+  server.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+
+  return server;
+};

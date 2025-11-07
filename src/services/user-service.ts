@@ -1,10 +1,10 @@
-import { db } from '@/db/user-db';
+import { dbService } from '@/services/db-service';
 import { ApiResponse, User, UserPayload } from '@/types/user';
 import { parseId, validateUserPayload, validateUserUpdatePayload } from '@/utils/parse';
 
 export const getAllUsers = async (): Promise<ApiResponse<User[]>> => {
   try {
-    const users = await db.findAll();
+    const users = await dbService.findAll();
     return {
       success: true,
       data: users,
@@ -26,7 +26,7 @@ export const createUser = async (data: Partial<UserPayload>): Promise<ApiRespons
     };
   }
 
-  const user = await db.createUser(payload);
+  const user = await dbService.createUser(payload);
 
   return {
     success: true,
@@ -64,11 +64,11 @@ export const getUserById = async (
 };
 
 export const getUser = (url: string) => {
-  return getUserById(url, db.getUser);
+  return getUserById(url, dbService.getUser);
 };
 
 export const deleteUser = (url: string) => {
-  return getUserById(url, db.deleteUser);
+  return getUserById(url, dbService.deleteUser);
 };
 
 export const updatedUser = async (url: string, data: Partial<UserPayload>): Promise<ApiResponse<User>> => {
@@ -87,7 +87,7 @@ export const updatedUser = async (url: string, data: Partial<UserPayload>): Prom
     });
   }
 
-  const user = await db.updateUser(result.data!.id, payload);
+  const user = await dbService.updateUser(result.data!.id, payload);
 
   if (!user) {
     return {
